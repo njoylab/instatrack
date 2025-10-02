@@ -18,6 +18,10 @@ A privacy-focused Instagram analytics tool built with Next.js that helps you tra
 
 ## 🚀 Quick Start
 
+### Try It Online
+
+Try the live version at **[https://instatrack.njoylab.com](https://instatrack.njoylab.com)**
+
 ### Prerequisites
 
 - Node.js 18+
