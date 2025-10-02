@@ -1,7 +1,13 @@
 {
-  "name": "nextn",
+  "name": "instatrack",
   "version": "0.1.0",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/njoylab/instatrack.git"
+  },
+  "bugs": "https://github.com/njoylab/instatrack/issues",
+  "homepage": "https://instatrack.njoylab.com",
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
     "build": "NODE_ENV=production next build",
