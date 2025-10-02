@@ -15,6 +15,9 @@ export default function Footer() {
           <Link href="/faq" className="hover:text-primary hover:underline">
             FAQ
           </Link>
+          <Link href="https://github.com/njoylab/instatrack" target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline">
+            GitHub
+          </Link>
         </nav>
       </div>
     </footer>

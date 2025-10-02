@@ -108,7 +108,11 @@ export default function TermsPage() {
             <section>
               <h3 className="font-semibold text-xl mb-3">9. Open Source</h3>
               <p>
-                InstaTrack is open source software. The source code is available for review and contribution under the MIT License. You may inspect, modify, and distribute the code in accordance with the license terms.
+                InstaTrack is open source software. The source code is available for review and contribution under the MIT License at{' '}
+                <Link href="https://github.com/njoylab/instatrack" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  github.com/njoylab/instatrack
+                </Link>
+                . You may inspect, modify, and distribute the code in accordance with the license terms.
               </p>
             </section>
 
