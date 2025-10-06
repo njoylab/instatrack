@@ -22,7 +22,7 @@ export default function UserTable({ title, users }: UserTableProps) {
   };
 
   const filteredAndSortedUsers = users
-    .filter(user => user.username.toLowerCase().includes(searchTerm.toLowerCase()))
+    .filter(user => user?.username?.toLowerCase().includes(searchTerm.toLowerCase()))
     .sort((a, b) => {
       if (sortOrder === 'asc') {
         return a.username.localeCompare(b.username);
