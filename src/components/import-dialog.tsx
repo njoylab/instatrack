@@ -48,13 +48,17 @@ const parseFollowers = (json: FileContent): User[] => {
     // New structure from user
     if (Array.isArray(json)) {
       return json.flatMap(item =>
-        (item.string_list_data || []).map(d => ({ username: d.value, profileUrl: d.href }))
+        (item.string_list_data || [])
+          .filter(d => d?.value)
+          .map(d => ({ username: d.value, profileUrl: d.href || '' }))
       );
     }
     // Original structure
     if (json.relationships_followers) {
         return (json.relationships_followers || []).flatMap(item =>
-            (item.string_list_data || []).map(d => ({ username: d.value, profileUrl: d.href }))
+            (item.string_list_data || [])
+              .filter(d => d?.value)
+              .map(d => ({ username: d.value, profileUrl: d.href || '' }))
         );
     }
     throw new Error("Invalid followers file format. Expected an array or an object with 'relationships_followers' key.");
@@ -63,7 +67,9 @@ const parseFollowers = (json: FileContent): User[] => {
 const parseFollowing = (json: InstagramData): User[] => {
     if (!json.relationships_following) throw new Error("Invalid following file format. Expected 'relationships_following' key.");
     return (json.relationships_following || []).flatMap(item =>
-      (item.string_list_data || []).map(d => ({ username: d.value, profileUrl: d.href }))
+      (item.string_list_data || [])
+        .filter(d => d?.value)
+        .map(d => ({ username: d.value, profileUrl: d.href || '' }))
     );
 };
 

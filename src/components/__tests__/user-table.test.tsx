@@ -58,4 +58,19 @@ describe('UserTable component', () => {
     expect(screen.getByText('1 user')).toBeInTheDocument()
     expect(screen.getByText('user1')).toBeInTheDocument()
   })
+
+  it('should filter out users with undefined username', () => {
+    const usersWithUndefined: User[] = [
+      { username: 'user1', profileUrl: 'https://instagram.com/user1' },
+      { username: undefined as any, profileUrl: 'https://instagram.com/user2' },
+      { username: 'user3', profileUrl: 'https://instagram.com/user3' }
+    ]
+
+    render(<UserTable title="Test Users" users={usersWithUndefined} />)
+
+    // Should only show valid users
+    expect(screen.getByText('user1')).toBeInTheDocument()
+    expect(screen.getByText('user3')).toBeInTheDocument()
+    expect(screen.queryByText('undefined')).not.toBeInTheDocument()
+  })
 })
