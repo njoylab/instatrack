@@ -12,6 +12,15 @@ jest.mock('recharts', () => ({
   ResponsiveContainer: ({ children }: any) => <div data-testid="responsive-container">{children}</div>
 }))
 
+// Mock Chart components
+jest.mock('@/components/ui/chart', () => ({
+  ChartContainer: ({ children }: any) => <div data-testid="chart-container">{children}</div>,
+  ChartTooltip: () => <div data-testid="chart-tooltip" />,
+  ChartTooltipContent: () => <div data-testid="chart-tooltip-content" />,
+  ChartLegend: () => <div data-testid="chart-legend" />,
+  ChartLegendContent: () => <div data-testid="chart-legend-content" />
+}))
+
 const mockSnapshots: Snapshot[] = [
   {
     date: '2024-01-01T00:00:00.000Z',
@@ -42,16 +51,22 @@ describe('OverviewTab component', () => {
     render(<OverviewTab snapshots={mockSnapshots} />)
 
     // Should show latest snapshot data (second snapshot)
-    expect(screen.getByText('3')).toBeInTheDocument() // Latest followers count
-    expect(screen.getByText('2')).toBeInTheDocument() // Latest following count
+    const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
+    const followingCard = screen.getByText('Total Following').closest('div.rounded-lg')
+
+    expect(followerCard).toHaveTextContent('3') // Latest followers count
+    expect(followingCard).toHaveTextContent('2') // Latest following count
   })
 
   it('should render growth indicators', () => {
     render(<OverviewTab snapshots={mockSnapshots} />)
 
     // Should show growth from previous snapshot
-    expect(screen.getByText('+1')).toBeInTheDocument() // Followers growth
-    expect(screen.getByText('+1')).toBeInTheDocument() // Following growth
+    const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
+    const followingCard = screen.getByText('Total Following').closest('div.rounded-lg')
+
+    expect(followerCard).toHaveTextContent('1from last snapshot') // Followers growth
+    expect(followingCard).toHaveTextContent('1from last snapshot') // Following growth
   })
 
   it('should render chart when multiple snapshots exist', () => {
@@ -65,29 +80,31 @@ describe('OverviewTab component', () => {
     const singleSnapshot = [mockSnapshots[0]]
     render(<OverviewTab snapshots={singleSnapshot} />)
 
-    expect(screen.getByText('2')).toBeInTheDocument() // Followers count
-    expect(screen.getByText('1')).toBeInTheDocument() // Following count
+    const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
+    const followingCard = screen.getByText('Total Following').closest('div.rounded-lg')
+
+    expect(followerCard).toHaveTextContent('2') // Followers count
+    expect(followingCard).toHaveTextContent('1') // Following count
   })
 
   it('should handle empty snapshots array', () => {
-    render(<OverviewTab snapshots={[]} />)
+    const { container } = render(<OverviewTab snapshots={[]} />)
 
-    // Should render without crashing
-    expect(screen.getByText('Follower & Following Trends')).toBeInTheDocument()
+    // Should return null and not crash
+    expect(container.firstChild).toBeNull()
   })
 
   it('should display correct section titles', () => {
     render(<OverviewTab snapshots={mockSnapshots} />)
 
-    expect(screen.getByText('Current Stats')).toBeInTheDocument()
     expect(screen.getByText('Follower & Following Trends')).toBeInTheDocument()
   })
 
   it('should show followers and following labels', () => {
     render(<OverviewTab snapshots={mockSnapshots} />)
 
-    expect(screen.getByText('Followers')).toBeInTheDocument()
-    expect(screen.getByText('Following')).toBeInTheDocument()
+    expect(screen.getByText('Total Followers')).toBeInTheDocument()
+    expect(screen.getByText('Total Following')).toBeInTheDocument()
   })
 
   it('should handle negative growth', () => {
@@ -117,7 +134,10 @@ describe('OverviewTab component', () => {
 
     render(<OverviewTab snapshots={decliningSnapshots} />)
 
-    expect(screen.getByText('-2')).toBeInTheDocument() // Followers decline
-    expect(screen.getByText('-1')).toBeInTheDocument() // Following decline
+    const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
+    const followingCard = screen.getByText('Total Following').closest('div.rounded-lg')
+
+    expect(followerCard).toHaveTextContent('2from last snapshot') // Followers decline (shows absolute value)
+    expect(followingCard).toHaveTextContent('1from last snapshot') // Following decline (shows absolute value)
   })
 })

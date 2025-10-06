@@ -12,7 +12,7 @@ describe('UserTable component', () => {
   it('should render table with users', () => {
     render(<UserTable title="Test Users" users={mockUsers} />)
 
-    expect(screen.getByText('Test Users')).toBeInTheDocument()
+    expect(screen.getByText(/Test Users/)).toBeInTheDocument()
     expect(screen.getByText('user1')).toBeInTheDocument()
     expect(screen.getByText('user2')).toBeInTheDocument()
     expect(screen.getByText('user3')).toBeInTheDocument()
@@ -21,14 +21,14 @@ describe('UserTable component', () => {
   it('should render user count', () => {
     render(<UserTable title="Test Users" users={mockUsers} />)
 
-    expect(screen.getByText('3 users')).toBeInTheDocument()
+    expect(screen.getByText('Test Users (3)')).toBeInTheDocument()
   })
 
   it('should render empty state when no users', () => {
     render(<UserTable title="Test Users" users={[]} />)
 
-    expect(screen.getByText('No users found')).toBeInTheDocument()
-    expect(screen.getByText('0 users')).toBeInTheDocument()
+    expect(screen.getByText('No users found.')).toBeInTheDocument()
+    expect(screen.getByText('Test Users (0)')).toBeInTheDocument()
   })
 
   it('should render profile links correctly', () => {
@@ -55,7 +55,7 @@ describe('UserTable component', () => {
     const singleUser = [mockUsers[0]]
     render(<UserTable title="Test Users" users={singleUser} />)
 
-    expect(screen.getByText('1 user')).toBeInTheDocument()
+    expect(screen.getByText('Test Users (1)')).toBeInTheDocument()
     expect(screen.getByText('user1')).toBeInTheDocument()
   })
 

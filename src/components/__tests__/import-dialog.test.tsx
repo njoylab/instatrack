@@ -10,6 +10,26 @@ jest.mock('@/hooks/use-toast', () => ({
   })
 }))
 
+// Mock Radix UI Dialog components
+jest.mock('@radix-ui/react-dialog', () => ({
+  Root: ({ children, open }: any) => open ? <div>{children}</div> : null,
+  Portal: ({ children }: any) => <div>{children}</div>,
+  Overlay: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Content: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Title: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Description: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Close: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+  Trigger: ({ children, ...props }: any) => <button {...props}>{children}</button>,
+}))
+
+// Mock lucide-react icons
+jest.mock('lucide-react', () => ({
+  Loader2: () => <div data-testid="loader-icon" />,
+  UploadCloud: () => <div data-testid="upload-icon" />,
+  Info: () => <div data-testid="info-icon" />,
+  X: () => <div data-testid="x-icon" />,
+}))
+
 const mockOnSave = jest.fn()
 const mockOnOpenChange = jest.fn()
 
