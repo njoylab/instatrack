@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, type ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import type { User, Snapshot } from '@/lib/types';
-import { Loader2, UploadCloud, Info } from 'lucide-react';
-import { Alert, AlertDescription } from './ui/alert';
+import type { Snapshot, User } from '@/lib/types';
+import { Info, Loader2, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
+import { useState, type ChangeEvent } from 'react';
+import { Alert, AlertDescription } from './ui/alert';
 
 interface ImportDialogProps {
   isOpen: boolean;
@@ -19,14 +19,16 @@ interface ImportDialogProps {
 
 interface InstagramData {
   relationships_followers?: Array<{
-    string_list_data: Array<{ value: string; href: string }>;
+    title?: string;
+    string_list_data: Array<{ value?: string; href?: string; timestamp?: number }>;
   }>;
   relationships_following?: Array<{
-    string_list_data: Array<{ value: string; href: string }>;
+    title?: string;
+    string_list_data: Array<{ value?: string; href?: string; timestamp?: number }>;
   }>;
 }
 
-type FileContent = InstagramData | Array<{ string_list_data: Array<{ value: string; href: string }> }>;
+type FileContent = InstagramData | Array<{ title?: string; string_list_data: Array<{ value?: string; href?: string; timestamp?: number }> }>;
 
 const parseJsonFile = (file: File): Promise<FileContent> => {
   return new Promise((resolve, reject) => {
@@ -44,33 +46,61 @@ const parseJsonFile = (file: File): Promise<FileContent> => {
   });
 };
 
-const parseFollowers = (json: FileContent): User[] => {
-    // New structure from user
-    if (Array.isArray(json)) {
-      return json.flatMap(item =>
-        (item.string_list_data || [])
-          .filter(d => d?.value)
-          .map(d => ({ username: d.value, profileUrl: d.href || '' }))
-      );
-    }
-    // Original structure
-    if (json.relationships_followers) {
-        return (json.relationships_followers || []).flatMap(item =>
-            (item.string_list_data || [])
-              .filter(d => d?.value)
-              .map(d => ({ username: d.value, profileUrl: d.href || '' }))
-        );
-    }
-    throw new Error("Invalid followers file format. Expected an array or an object with 'relationships_followers' key.");
+// Extract username from Instagram URL or use value/title directly
+const extractUsername = (data: { value?: string; href?: string }, title?: string): string | null => {
+  // If value exists, use it
+  if (data.value) return data.value;
+
+  // If title exists at parent level, use it
+  if (title) return title;
+
+  // If no value but href exists, extract from URL
+  if (data.href) {
+    // Handle formats: https://www.instagram.com/_u/username or https://www.instagram.com/username
+    const match = data.href.match(/instagram\.com\/(?:_u\/)?([^/?]+)/);
+    if (match?.[1]) return match[1];
+  }
+
+  return null;
 };
-  
-const parseFollowing = (json: InstagramData): User[] => {
-    if (!json.relationships_following) throw new Error("Invalid following file format. Expected 'relationships_following' key.");
-    return (json.relationships_following || []).flatMap(item =>
+
+const parseFollowers = (json: FileContent): User[] => {
+  // New structure from user
+  if (Array.isArray(json)) {
+    return json.flatMap(item =>
       (item.string_list_data || [])
-        .filter(d => d?.value)
-        .map(d => ({ username: d.value, profileUrl: d.href || '' }))
+        .map(d => {
+          const username = extractUsername(d, item.title);
+          return username ? { username, profileUrl: d.href || '' } : null;
+        })
+        .filter((user): user is User => user !== null)
     );
+  }
+  // Original structure
+  if (json.relationships_followers) {
+    return (json.relationships_followers || []).flatMap(item =>
+      (item.string_list_data || [])
+        .map(d => {
+          const username = extractUsername(d, item.title);
+          return username ? { username, profileUrl: d.href || '' } : null;
+        })
+        .filter((user): user is User => user !== null)
+    );
+  }
+  throw new Error("Invalid followers file format. Expected an array or an object with 'relationships_followers' key.");
+};
+
+const parseFollowing = (json: InstagramData): User[] => {
+  if (!json.relationships_following) throw new Error("Invalid following file format. Expected 'relationships_following' key.");
+  console.log(json.relationships_following);
+  return (json.relationships_following || []).flatMap(item =>
+    (item.string_list_data || [])
+      .map(d => {
+        const username = extractUsername(d, item.title);
+        return username ? { username, profileUrl: d.href || '' } : null;
+      })
+      .filter((user): user is User => user !== null)
+  );
 };
 
 export default function ImportDialog({ isOpen, onOpenChange, onSave }: ImportDialogProps) {
@@ -113,8 +143,12 @@ export default function ImportDialog({ isOpen, onOpenChange, onSave }: ImportDia
       const followers = parseFollowers(followersJson);
       const following = parseFollowing(followingJson as InstagramData);
 
-      if (followers.length === 0 || following.length === 0) {
-        throw new Error("Parsed data is empty. Check file content and format.");
+      // say which file is empty
+      if (followers.length === 0) {
+        throw new Error("Followers file is empty. Check file content and format.");
+      }
+      if (following.length === 0) {
+        throw new Error("Following file is empty. Check file content and format.");
       }
 
       const newSnapshot: Snapshot = {
@@ -162,7 +196,7 @@ export default function ImportDialog({ isOpen, onOpenChange, onSave }: ImportDia
             <Input id="following-file" type="file" accept="application/json" onChange={(e) => handleFileChange(e, 'following')} />
             {followingFile && <p className="text-sm text-muted-foreground">Selected: {followingFile.name}</p>}
           </div>
-          
+
           <Alert className="mt-4">
             <Info className="h-4 w-4" />
             <AlertDescription>
