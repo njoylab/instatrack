@@ -4,9 +4,22 @@ import ImportDialog from '../import-dialog'
 import type { Snapshot } from '@/lib/types'
 
 // Mock the toast hook
+const mockToast = jest.fn()
 jest.mock('@/hooks/use-toast', () => ({
   useToast: () => ({
-    toast: jest.fn()
+    toast: mockToast
+  })
+}))
+
+// Mock the useSnapshots hook
+const mockSnapshots: any[] = []
+jest.mock('@/hooks/use-snapshots', () => ({
+  useSnapshots: () => ({
+    snapshots: mockSnapshots,
+    addSnapshot: jest.fn(),
+    clearSnapshots: jest.fn(),
+    isLoaded: true,
+    restoreSnapshots: jest.fn()
   })
 }))
 
@@ -42,6 +55,8 @@ const defaultProps = {
 describe('ImportDialog component', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    mockSnapshots.length = 0
+    mockToast.mockClear()
   })
 
   it('should render dialog when open', () => {
@@ -183,5 +198,158 @@ describe('ImportDialog component', () => {
     await waitFor(() => {
       expect(mockFileReader.readAsText).toHaveBeenCalled()
     })
+  })
+
+  it('should skip creating snapshot when data is identical to last snapshot', async () => {
+    const user = userEvent.setup()
+
+    // Add an existing snapshot with the same data we're about to import
+    const existingSnapshot: Snapshot = {
+      date: '2024-01-01T00:00:00.000Z',
+      followers: [
+        { username: 'follower1', profileUrl: 'https://instagram.com/follower1' }
+      ],
+      following: [
+        { username: 'following1', profileUrl: 'https://instagram.com/following1' }
+      ]
+    }
+    mockSnapshots.push(existingSnapshot)
+
+    // Mock FileReader
+    const followersData = JSON.stringify({
+      relationships_followers: [{
+        string_list_data: [
+          { value: 'follower1', href: 'https://instagram.com/follower1' }
+        ]
+      }]
+    })
+
+    const followingData = JSON.stringify({
+      relationships_following: [{
+        string_list_data: [
+          { value: 'following1', href: 'https://instagram.com/following1' }
+        ]
+      }]
+    })
+
+    const mockFileReader = {
+      readAsText: jest.fn(),
+      result: '',
+      onload: null as any,
+      onerror: null as any
+    }
+
+    let readCount = 0
+    mockFileReader.readAsText.mockImplementation(() => {
+      readCount++
+      const result = readCount === 1 ? followersData : followingData
+      if (mockFileReader.onload) {
+        setTimeout(() => {
+          mockFileReader.onload({ target: { result } } as any)
+        }, 0)
+      }
+    })
+
+    global.FileReader = jest.fn(() => mockFileReader) as any
+
+    render(<ImportDialog {...defaultProps} />)
+
+    const followersFile = new File([followersData], 'followers.json', { type: 'application/json' })
+    const followingFile = new File([followingData], 'following.json', { type: 'application/json' })
+
+    const followersInput = screen.getByLabelText(/Followers File/)
+    const followingInput = screen.getByLabelText(/Following File/)
+
+    await user.upload(followersInput, followersFile)
+    await user.upload(followingInput, followingFile)
+
+    const createButton = screen.getByText('Create Snapshot')
+    await user.click(createButton)
+
+    await waitFor(() => {
+      expect(mockToast).toHaveBeenCalledWith({
+        title: 'No Changes Detected',
+        description: expect.stringContaining('identical to your most recent snapshot')
+      })
+    })
+
+    expect(mockOnSave).not.toHaveBeenCalled()
+    expect(mockOnOpenChange).toHaveBeenCalledWith(false)
+  })
+
+  it('should create snapshot when data is different from last snapshot', async () => {
+    const user = userEvent.setup()
+
+    // Add an existing snapshot with different data
+    const existingSnapshot: Snapshot = {
+      date: '2024-01-01T00:00:00.000Z',
+      followers: [
+        { username: 'olduser', profileUrl: 'https://instagram.com/olduser' }
+      ],
+      following: [
+        { username: 'oldfollow', profileUrl: 'https://instagram.com/oldfollow' }
+      ]
+    }
+    mockSnapshots.push(existingSnapshot)
+
+    // Mock FileReader
+    const followersData = JSON.stringify({
+      relationships_followers: [{
+        string_list_data: [
+          { value: 'newfollower', href: 'https://instagram.com/newfollower' }
+        ]
+      }]
+    })
+
+    const followingData = JSON.stringify({
+      relationships_following: [{
+        string_list_data: [
+          { value: 'newfollowing', href: 'https://instagram.com/newfollowing' }
+        ]
+      }]
+    })
+
+    const mockFileReader = {
+      readAsText: jest.fn(),
+      result: '',
+      onload: null as any,
+      onerror: null as any
+    }
+
+    let readCount = 0
+    mockFileReader.readAsText.mockImplementation(() => {
+      readCount++
+      const result = readCount === 1 ? followersData : followingData
+      if (mockFileReader.onload) {
+        setTimeout(() => {
+          mockFileReader.onload({ target: { result } } as any)
+        }, 0)
+      }
+    })
+
+    global.FileReader = jest.fn(() => mockFileReader) as any
+
+    render(<ImportDialog {...defaultProps} />)
+
+    const followersFile = new File([followersData], 'followers.json', { type: 'application/json' })
+    const followingFile = new File([followingData], 'following.json', { type: 'application/json' })
+
+    const followersInput = screen.getByLabelText(/Followers File/)
+    const followingInput = screen.getByLabelText(/Following File/)
+
+    await user.upload(followersInput, followersFile)
+    await user.upload(followingInput, followingFile)
+
+    const createButton = screen.getByText('Create Snapshot')
+    await user.click(createButton)
+
+    await waitFor(() => {
+      expect(mockToast).toHaveBeenCalledWith({
+        title: 'Success',
+        description: expect.stringContaining('Snapshot created')
+      })
+    })
+
+    expect(mockOnSave).toHaveBeenCalled()
   })
 })

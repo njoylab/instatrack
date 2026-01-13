@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { useSnapshots } from '@/hooks/use-snapshots';
 import type { Snapshot, User } from '@/lib/types';
 import { Info, Loader2, UploadCloud } from 'lucide-react';
 import Link from 'next/link';
@@ -16,6 +17,29 @@ interface ImportDialogProps {
   onOpenChange: (isOpen: boolean) => void;
   onSave: (snapshot: Snapshot) => void;
 }
+
+// Compare two snapshots to check if they contain the same data
+const areSnapshotsEqual = (snapshot1: Snapshot, snapshot2: Snapshot): boolean => {
+  // Compare followers
+  if (snapshot1.followers.length !== snapshot2.followers.length) return false;
+  const followers1Usernames = new Set(snapshot1.followers.map(f => f.username));
+  const followers2Usernames = new Set(snapshot2.followers.map(f => f.username));
+  if (followers1Usernames.size !== followers2Usernames.size) return false;
+  for (const username of followers1Usernames) {
+    if (!followers2Usernames.has(username)) return false;
+  }
+
+  // Compare following
+  if (snapshot1.following.length !== snapshot2.following.length) return false;
+  const following1Usernames = new Set(snapshot1.following.map(f => f.username));
+  const following2Usernames = new Set(snapshot2.following.map(f => f.username));
+  if (following1Usernames.size !== following2Usernames.size) return false;
+  for (const username of following1Usernames) {
+    if (!following2Usernames.has(username)) return false;
+  }
+
+  return true;
+};
 
 interface InstagramData {
   relationships_followers?: Array<{
@@ -108,6 +132,7 @@ export default function ImportDialog({ isOpen, onOpenChange, onSave }: ImportDia
   const [followingFile, setFollowingFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { snapshots } = useSnapshots();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>, fileType: 'followers' | 'following') => {
     if (e.target.files && e.target.files[0]) {
@@ -156,6 +181,20 @@ export default function ImportDialog({ isOpen, onOpenChange, onSave }: ImportDia
         followers,
         following,
       };
+
+      // Check if the new snapshot is identical to the most recent one
+      const lastSnapshot = snapshots.length > 0 ? snapshots[snapshots.length - 1] : null;
+      if (lastSnapshot && areSnapshotsEqual(newSnapshot, lastSnapshot)) {
+        toast({
+          title: "No Changes Detected",
+          description: `The imported data is identical to your most recent snapshot. No new snapshot was created.`,
+        });
+        // Reset state without saving
+        setFollowersFile(null);
+        setFollowingFile(null);
+        onOpenChange(false);
+        return;
+      }
 
       onSave(newSnapshot);
       toast({
