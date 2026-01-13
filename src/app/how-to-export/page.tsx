@@ -2,11 +2,99 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'How to Export Instagram Data - InstaTrack Guide',
+  description: 'Step-by-step guide to export your Instagram followers and following data. Learn how to download your Instagram data as JSON files for use with InstaTrack.',
+  keywords: ['export Instagram data', 'download Instagram followers', 'Instagram data export', 'get Instagram following list', 'Instagram JSON export'],
+  openGraph: {
+    title: 'How to Export Your Instagram Data - InstaTrack',
+    description: 'Complete guide to downloading your Instagram followers and following data safely.',
+    url: 'https://instatrack.njoylab.com/how-to-export',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'How to Export Your Instagram Data',
+    description: 'Step-by-step guide to export your Instagram followers and following data.',
+  },
+  alternates: {
+    canonical: 'https://instatrack.njoylab.com/how-to-export',
+  },
+};
 
 export default function HowToExportPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: 'How to Export Your Instagram Data',
+    description: 'Step-by-step guide to export your Instagram followers and following data as JSON files.',
+    step: [
+      {
+        '@type': 'HowToStep',
+        position: 1,
+        name: 'Go to the Download Page',
+        text: 'Navigate to Instagram\'s download page at https://accountscenter.instagram.com/info_and_permissions/dyi/',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 2,
+        name: 'Request a Download',
+        text: 'Tap "Request a download". You might be asked to select the profile if you have multiple accounts.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 3,
+        name: 'Select Information Type',
+        text: 'Choose "Select types of information". This allows you to download only what you need.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 4,
+        name: 'Choose Followers and following',
+        text: 'From the list, select "Followers and following" and tap "Next".',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 5,
+        name: 'Set Format and Date Range',
+        text: 'Change the format from HTML to JSON and set the date range to "All time".',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 6,
+        name: 'Submit Request',
+        text: 'Tap "Submit request".',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 7,
+        name: 'Download and Unzip',
+        text: 'Wait for Instagram to prepare your file (you\'ll receive an email), then download and unzip it.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 8,
+        name: 'Locate Your Files',
+        text: 'Navigate to connections/followers_and_following/ folder to find followers_1.json and following.json.',
+      },
+      {
+        '@type': 'HowToStep',
+        position: 9,
+        name: 'Import to InstaTrack',
+        text: 'Upload these two files in the InstaTrack import dialog.',
+      },
+    ],
+  };
+
   return (
-    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
-      <div className="max-w-4xl mx-auto">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
+        <div className="max-w-4xl mx-auto">
         <Button asChild variant="outline" className="mb-4">
           <Link href="/">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -102,5 +190,6 @@ export default function HowToExportPage() {
         </Card>
       </div>
     </div>
+    </>
   );
 }

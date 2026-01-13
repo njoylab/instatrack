@@ -1,0 +1,22 @@
+{
+  "name": "InstaTrack - Instagram Growth Tracker",
+  "short_name": "InstaTrack",
+  "description": "Monitor your Instagram followers and following over time with privacy-first snapshot tracking",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#8B5CF6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/og-image.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["social", "utilities", "productivity"],
+  "screenshots": [],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

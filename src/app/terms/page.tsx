@@ -2,6 +2,29 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms and Conditions - InstaTrack',
+  description: 'Terms and conditions for using InstaTrack. Privacy-focused Instagram follower tracking with local data processing and no server storage.',
+  openGraph: {
+    title: 'Terms and Conditions - InstaTrack',
+    description: 'Terms of service for InstaTrack Instagram tracking tool.',
+    url: 'https://instatrack.njoylab.com/terms',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Terms and Conditions - InstaTrack',
+    description: 'Terms of service for InstaTrack Instagram tracking tool.',
+  },
+  alternates: {
+    canonical: 'https://instatrack.njoylab.com/terms',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function TermsPage() {
   return (

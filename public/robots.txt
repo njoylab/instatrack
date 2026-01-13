@@ -1,0 +1,6 @@
+# robots.txt for InstaTrack
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://instatrack.njoylab.com/sitemap.xml
