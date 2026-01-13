@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     siteName: 'InstaTrack',
     images: [
       {
-        url: '/og-image.svg',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'InstaTrack - Track Your Instagram Growth',
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'InstaTrack - Track Your Instagram Growth',
     description: 'Monitor your Instagram followers and following over time. Snapshot tracking and privacy-first approach.',
-    images: ['/og-image.svg'],
+    images: ['/og-image.png'],
     creator: '@emln_',
   },
   robots: {
