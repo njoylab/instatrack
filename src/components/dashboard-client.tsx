@@ -18,7 +18,7 @@ import RestoreDialog from './restore-dialog';
 export default function DashboardClient() {
   const [isImportOpen, setImportOpen] = useState(false);
   const [isRestoreOpen, setRestoreOpen] = useState(false);
-  const { snapshots, addSnapshot, clearSnapshots, isLoaded, restoreSnapshots } = useSnapshots();
+  const { snapshots, addSnapshot, clearSnapshots, isLoaded, restoreSnapshots, deleteSnapshot } = useSnapshots();
 
   const handleSaveSnapshot = (newSnapshot: Snapshot) => {
     addSnapshot(newSnapshot);
@@ -68,16 +68,10 @@ export default function DashboardClient() {
         </div>
         <div className="ml-auto flex items-center gap-2">
           {snapshots.length > 0 && (
-            <>
-               <Button variant="outline" size="sm" onClick={handleBackup}>
-                <Save className="h-4 w-4" />
-                <span className="hidden sm:inline ml-2">Backup Data</span>
-              </Button>
-              <Button variant="destructive" size="sm" onClick={clearSnapshots}>
-                <Trash2 className="h-4 w-4" />
-                <span className="hidden sm:inline ml-2">Clear Data</span>
-              </Button>
-            </>
+            <Button variant="outline" size="sm" onClick={handleBackup}>
+              <Save className="h-4 w-4" />
+              <span className="hidden sm:inline ml-2">Backup Data</span>
+            </Button>
           )}
           <Button onClick={() => setImportOpen(true)} size="sm">
             <Upload className="h-4 w-4" />
@@ -237,7 +231,7 @@ export default function DashboardClient() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview">
-              <OverviewTab snapshots={snapshots} />
+              <OverviewTab snapshots={snapshots} onDeleteSnapshot={deleteSnapshot} onClearAll={clearSnapshots} />
             </TabsContent>
             <TabsContent value="analysis">
               <AnalysisTab snapshots={snapshots} />

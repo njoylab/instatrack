@@ -51,6 +51,12 @@ export function useSnapshots() {
     saveSnapshotsToLocalStorage(sortedSnapshots);
   }, []);
 
+  const deleteSnapshot = useCallback((dateToDelete: string) => {
+    const updatedSnapshots = snapshots.filter(snapshot => snapshot.date !== dateToDelete);
+    setSnapshots(updatedSnapshots);
+    saveSnapshotsToLocalStorage(updatedSnapshots);
+  }, [snapshots]);
 
-  return { snapshots, addSnapshot, clearSnapshots, isLoaded, restoreSnapshots };
+
+  return { snapshots, addSnapshot, clearSnapshots, isLoaded, restoreSnapshots, deleteSnapshot };
 }
