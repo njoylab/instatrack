@@ -14,7 +14,7 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'InstaTrack - Track Your Instagram Growth',
+  title: 'InstaTrack - Track Your Instagram Growth for Free',
   description: 'Monitor your Instagram followers and following over time. Snapshot tracking and privacy-first approach. Discover who unfollowed you and analyze your Instagram patterns.',
   keywords: ['Instagram tracker', 'follower tracker', 'Instagram analytics', 'unfollow tracker', 'Instagram growth'],
   authors: [{ name: 'njoyLab.com' }],
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://instatrack.njoylab.com',
-    title: 'InstaTrack - Track Your Instagram Growth',
+    title: 'InstaTrack - Track Your Instagram Growth for Free',
     description: 'Monitor your Instagram followers and following over time. Snapshot tracking and privacy-first approach.',
     siteName: 'InstaTrack',
     images: [
@@ -33,13 +33,13 @@ export const metadata: Metadata = {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'InstaTrack - Track Your Instagram Growth',
+        alt: 'InstaTrack - Track Your Instagram Growth for Free',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'InstaTrack - Track Your Instagram Growth',
+    title: 'InstaTrack - Track Your Instagram Growth for Free',
     description: 'Monitor your Instagram followers and following over time. Snapshot tracking and privacy-first approach.',
     images: ['/og-image.png'],
     creator: '@emln_',
