@@ -48,6 +48,7 @@ jest.mock('lucide-react', () => ({
   UploadCloud: () => <div data-testid="upload-cloud-icon" />,
   Info: () => <div data-testid="info-icon" />,
   CalendarDays: () => <div data-testid="calendar-icon" />,
+  Calendar: () => <div data-testid="calendar-icon" />,
   Search: () => <div data-testid="search-icon" />,
   SortAsc: () => <div data-testid="sort-asc-icon" />,
   SortDesc: () => <div data-testid="sort-desc-icon" />,
