@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
 import DashboardClient from '@/components/dashboard-client';
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: 'https://instatrack.njoylab.com/',
+  },
+};
 
 export default function Home() {
   return (

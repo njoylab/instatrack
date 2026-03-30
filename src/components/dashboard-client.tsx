@@ -163,7 +163,11 @@ export default function DashboardClient() {
                       <h3 className="font-semibold">Export Your Data</h3>
                     </div>
                     <p className="text-sm text-muted-foreground ml-11">
-                      Request your Instagram data download and get the followers_1.json and following.json files.
+                      Request your Instagram data download and get the{' '}
+                      <Link href="/how-to-export" className="underline text-primary hover:text-primary/80">
+                        followers_1.json and following.json
+                      </Link>{' '}
+                      files.
                     </p>
                   </div>
 
@@ -205,11 +209,11 @@ export default function DashboardClient() {
                 </div>
 
                 <p className="text-sm text-muted-foreground">
-                  Need help exporting your data?{' '}
+                  Need help?{' '}
                   <Link href="/how-to-export" className="underline text-primary hover:text-primary/80 font-medium">
-                    Follow our step-by-step guide
+                    How to export followers_1.json and following.json from Instagram
                   </Link>
-                  {' '}or check out the{' '}
+                  {' '}or check the{' '}
                   <Link href="/faq" className="underline text-primary hover:text-primary/80 font-medium">
                     FAQ
                   </Link>

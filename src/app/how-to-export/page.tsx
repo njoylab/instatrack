@@ -5,18 +5,27 @@ import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'How to Export Instagram Data - InstaTrack Guide',
-  description: 'Step-by-step guide to export your Instagram followers and following data. Learn how to download your Instagram data as JSON files for use with InstaTrack.',
-  keywords: ['export Instagram data', 'download Instagram followers', 'Instagram data export', 'get Instagram following list', 'Instagram JSON export'],
+  title: 'How to Export & Import Instagram Data | InstaTrack Guide',
+  description: 'Have followers_1.json? Upload it to InstaTrack to see who unfollowed you. Or follow this guide to download your Instagram data from connections/followers_and_following.',
+  keywords: ['followers_1.json', 'following.json', 'connections followers_and_following', 'Instagram data export', 'import Instagram followers', 'Instagram JSON import'],
   openGraph: {
-    title: 'How to Export Your Instagram Data - InstaTrack',
-    description: 'Complete guide to downloading your Instagram followers and following data safely.',
+    title: 'How to Export & Import Your Instagram Data — InstaTrack',
+    description: 'Have followers_1.json? Upload it to InstaTrack to track unfollowers and growth. Free, private, no login.',
     url: 'https://instatrack.njoylab.com/how-to-export',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'InstaTrack — Import Instagram followers_1.json and following.json',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How to Export Your Instagram Data',
-    description: 'Step-by-step guide to export your Instagram followers and following data.',
+    title: 'How to Export & Import Instagram Data | InstaTrack',
+    description: 'Have followers_1.json? Upload it to InstaTrack to see who unfollowed you. Free, private.',
+    images: ['/og-image.png'],
   },
   alternates: {
     canonical: 'https://instatrack.njoylab.com/how-to-export',
@@ -103,12 +112,17 @@ export default function HowToExportPage() {
         </Button>
         <Card>
           <CardHeader>
-            <CardTitle className="text-3xl">How to Export Your Instagram Data</CardTitle>
+            <h1 className="text-3xl font-semibold leading-none tracking-tight">How to Export &amp; Import Your Instagram Data</h1>
             <CardDescription>
-              Follow these steps to download the necessary JSON files from your Instagram account.
+              Already have <code className="bg-muted px-1 py-0.5 rounded text-sm">followers_1.json</code>? Skip to <a href="#import" className="underline">Step 9 — Import to InstaTrack</a>. Otherwise, follow all steps to download your data first.
+              {' '}Want to understand what you can do with the data?{' '}
+              <Link href="/blog/download-instagram-data-analyze" className="underline">
+                Learn how to analyze your Instagram account data
+              </Link>.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 text-base">
+            <h2 className="text-xl font-semibold" id="export-guide">Step-by-Step: Download Your Instagram Data</h2>
             <div>
               <h3 className="font-semibold text-xl mb-2">Step 1: Go to the Download Page</h3>
               <p>
@@ -180,8 +194,8 @@ export default function HowToExportPage() {
                 Note: If you have a very large number of followers, your followers list might be split into multiple files (e.g., &ldquo;followers_1.json&rdquo;, &ldquo;followers_2.json&rdquo;). This app currently only supports &ldquo;followers_1.json&rdquo;.
               </p>
             </div>
-             <div>
-              <h3 className="font-semibold text-xl mb-2">Step 9: Import to InstaTrack</h3>
+             <div id="import">
+              <h2 className="text-xl font-semibold mb-2">Step 9: Import to InstaTrack</h2>
               <p>
                 You&apos;re all set! Go back to the InstaTrack dashboard and upload these two files in the import dialog.
               </p>
