@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Upload, Trash2, LineChart, UsersRound, HeartOff, Users, Save, RotateCcw } from 'lucide-react';
+import { Upload, LineChart, UsersRound, HeartOff, Users, Save, RotateCcw } from 'lucide-react';
 import { useSnapshots } from '@/hooks/use-snapshots';
 import ImportDialog from '@/components/import-dialog';
 import OverviewTab from '@/components/overview-tab';

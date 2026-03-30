@@ -24,10 +24,14 @@ const mockSnapshot2: Snapshot = {
 }
 
 describe('useSnapshots hook', () => {
+  const getItemMock = localStorage.getItem as unknown as jest.Mock
+  const setItemMock = localStorage.setItem as unknown as jest.Mock
+  const removeItemMock = localStorage.removeItem as unknown as jest.Mock
+
   beforeEach(() => {
-    localStorage.getItem.mockReturnValue(null)
-    localStorage.setItem.mockClear()
-    localStorage.removeItem.mockClear()
+    getItemMock.mockReturnValue(null)
+    setItemMock.mockClear()
+    removeItemMock.mockClear()
   })
 
   it('should initialize with empty snapshots when localStorage is empty', () => {
@@ -39,7 +43,7 @@ describe('useSnapshots hook', () => {
 
   it('should load snapshots from localStorage on mount', () => {
     const savedSnapshots = [mockSnapshot1, mockSnapshot2]
-    localStorage.getItem.mockReturnValue(JSON.stringify(savedSnapshots))
+    getItemMock.mockReturnValue(JSON.stringify(savedSnapshots))
 
     const { result } = renderHook(() => useSnapshots())
 
@@ -78,7 +82,7 @@ describe('useSnapshots hook', () => {
   })
 
   it('should clear all snapshots and localStorage', () => {
-    localStorage.getItem.mockReturnValue(JSON.stringify([mockSnapshot1]))
+    getItemMock.mockReturnValue(JSON.stringify([mockSnapshot1]))
     const { result } = renderHook(() => useSnapshots())
 
     act(() => {
@@ -108,7 +112,7 @@ describe('useSnapshots hook', () => {
 
   it('should handle localStorage errors gracefully', () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
-    localStorage.getItem.mockImplementation(() => {
+    getItemMock.mockImplementation(() => {
       throw new Error('localStorage error')
     })
 
@@ -123,7 +127,7 @@ describe('useSnapshots hook', () => {
 
   it('should handle invalid JSON in localStorage', () => {
     const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation()
-    localStorage.getItem.mockReturnValue('invalid json')
+    getItemMock.mockReturnValue('invalid json')
 
     const { result } = renderHook(() => useSnapshots())
 

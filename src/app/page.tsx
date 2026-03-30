@@ -28,7 +28,7 @@ export default function Home() {
         </ul>
         <h2>How It Works</h2>
         <p>
-          Simply export your Instagram followers and following data from Instagram's official download page,
+          Simply export your Instagram followers and following data from Instagram&apos;s official download page,
           import the JSON files into InstaTrack, and start tracking your Instagram growth. No login required,
           no Instagram API access needed, and complete privacy guaranteed.
         </p>

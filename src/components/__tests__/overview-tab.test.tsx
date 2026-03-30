@@ -47,8 +47,22 @@ const mockSnapshots: Snapshot[] = [
 ]
 
 describe('OverviewTab component', () => {
+  const mockOnDeleteSnapshot = jest.fn()
+  const mockOnClearAll = jest.fn()
+
+  const defaultProps = {
+    snapshots: mockSnapshots,
+    onDeleteSnapshot: mockOnDeleteSnapshot,
+    onClearAll: mockOnClearAll
+  }
+
+  beforeEach(() => {
+    mockOnDeleteSnapshot.mockClear()
+    mockOnClearAll.mockClear()
+  })
+
   it('should render latest snapshot stats', () => {
-    render(<OverviewTab snapshots={mockSnapshots} />)
+    render(<OverviewTab {...defaultProps} />)
 
     // Should show latest snapshot data (second snapshot)
     const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
@@ -59,7 +73,7 @@ describe('OverviewTab component', () => {
   })
 
   it('should render growth indicators', () => {
-    render(<OverviewTab snapshots={mockSnapshots} />)
+    render(<OverviewTab {...defaultProps} />)
 
     // Should show growth from previous snapshot
     const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
@@ -70,7 +84,7 @@ describe('OverviewTab component', () => {
   })
 
   it('should render chart when multiple snapshots exist', () => {
-    render(<OverviewTab snapshots={mockSnapshots} />)
+    render(<OverviewTab {...defaultProps} />)
 
     expect(screen.getByTestId('line-chart')).toBeInTheDocument()
     expect(screen.getByTestId('responsive-container')).toBeInTheDocument()
@@ -78,7 +92,7 @@ describe('OverviewTab component', () => {
 
   it('should handle single snapshot', () => {
     const singleSnapshot = [mockSnapshots[0]]
-    render(<OverviewTab snapshots={singleSnapshot} />)
+    render(<OverviewTab {...defaultProps} snapshots={singleSnapshot} />)
 
     const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
     const followingCard = screen.getByText('Total Following').closest('div.rounded-lg')
@@ -88,20 +102,20 @@ describe('OverviewTab component', () => {
   })
 
   it('should handle empty snapshots array', () => {
-    const { container } = render(<OverviewTab snapshots={[]} />)
+    const { container } = render(<OverviewTab {...defaultProps} snapshots={[]} />)
 
     // Should return null and not crash
     expect(container.firstChild).toBeNull()
   })
 
   it('should display correct section titles', () => {
-    render(<OverviewTab snapshots={mockSnapshots} />)
+    render(<OverviewTab {...defaultProps} />)
 
     expect(screen.getByText('Follower & Following Trends')).toBeInTheDocument()
   })
 
   it('should show followers and following labels', () => {
-    render(<OverviewTab snapshots={mockSnapshots} />)
+    render(<OverviewTab {...defaultProps} />)
 
     expect(screen.getByText('Total Followers')).toBeInTheDocument()
     expect(screen.getByText('Total Following')).toBeInTheDocument()
@@ -132,7 +146,7 @@ describe('OverviewTab component', () => {
       }
     ]
 
-    render(<OverviewTab snapshots={decliningSnapshots} />)
+    render(<OverviewTab {...defaultProps} snapshots={decliningSnapshots} />)
 
     const followerCard = screen.getByText('Total Followers').closest('div.rounded-lg')
     const followingCard = screen.getByText('Total Following').closest('div.rounded-lg')

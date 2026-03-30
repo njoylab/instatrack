@@ -203,7 +203,7 @@ export default function OverviewTab({ snapshots, onDeleteSnapshot, onClearAll }:
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {[...snapshots].reverse().map((snapshot, index) => {
+            {[...snapshots].reverse().map((snapshot) => {
               const formattedDate = new Date(snapshot.date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',

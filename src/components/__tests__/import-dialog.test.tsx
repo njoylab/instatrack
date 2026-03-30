@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ImportDialog from '../import-dialog'
 import type { Snapshot } from '@/lib/types'
@@ -150,8 +150,8 @@ describe('ImportDialog component', () => {
           { value: 'testuser', href: 'https://instagram.com/testuser' }
         ]
       }]),
-      onload: null,
-      onerror: null
+      onload: null as ((e: ProgressEvent<FileReader>) => void) | null,
+      onerror: null as ((e: ProgressEvent<FileReader>) => void) | null
     }
 
     global.FileReader = jest.fn(() => mockFileReader) as any
