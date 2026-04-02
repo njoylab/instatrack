@@ -14,8 +14,8 @@ const ptSans = PT_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'InstaTrack - Track Your Instagram Growth for Free',
-  description: 'Free Instagram follower tracker. Upload your data, see who unfollowed you, track growth over time. No login, 100% private — data stays in your browser.',
+  title: 'InstaTrack — Free Instagram Follower Tracker. No Login, 100% Private.',
+  description: 'See who unfollowed you on Instagram. Upload your followers_1.json, track growth over time. Free, no login required — your data never leaves your browser.',
   keywords: ['Instagram tracker', 'follower tracker', 'Instagram analytics', 'unfollow tracker', 'Instagram growth'],
   authors: [{ name: 'njoyLab.com' }],
   creator: 'njoyLab.com',
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: 'https://instatrack.njoylab.com',
-    title: 'InstaTrack - Track Your Instagram Growth for Free',
-    description: 'Free Instagram follower tracker. Upload your data, see who unfollowed you, track growth over time. No login, 100% private.',
+    title: 'InstaTrack — Free Instagram Follower Tracker. No Login, 100% Private.',
+    description: 'See who unfollowed you on Instagram. Upload your followers_1.json, track growth over time. Free, no login required — your data never leaves your browser.',
     siteName: 'InstaTrack',
     images: [
       {
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'InstaTrack - Track Your Instagram Growth for Free',
-    description: 'Monitor your Instagram followers and following over time. Snapshot tracking and privacy-first approach.',
+    title: 'InstaTrack — Free Instagram Follower Tracker. No Login, 100% Private.',
+    description: 'See who unfollowed you on Instagram. Upload followers_1.json, track growth over time. Free, no login — your data stays in your browser.',
     images: ['/og-image.png'],
     creator: '@emln_',
   },

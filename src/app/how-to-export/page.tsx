@@ -5,12 +5,12 @@ import { ArrowLeft } from 'lucide-react';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'How to Export & Import Instagram Data | InstaTrack Guide',
-  description: 'Have followers_1.json? Upload it to InstaTrack to see who unfollowed you. Or follow this guide to download your Instagram data from connections/followers_and_following.',
+  title: 'Got followers_1.json? How to Use Your Instagram Data — InstaTrack',
+  description: 'Already have followers_1.json or following.json? Upload them to InstaTrack to see who unfollowed you. Or follow this guide to download your data from Instagram.',
   keywords: ['followers_1.json', 'following.json', 'connections followers_and_following', 'Instagram data export', 'import Instagram followers', 'Instagram JSON import'],
   openGraph: {
-    title: 'How to Export & Import Your Instagram Data — InstaTrack',
-    description: 'Have followers_1.json? Upload it to InstaTrack to track unfollowers and growth. Free, private, no login.',
+    title: 'Got followers_1.json? How to Use Your Instagram Data — InstaTrack',
+    description: 'Already have followers_1.json? Upload it to InstaTrack to track unfollowers and growth. Free, private, no login.',
     url: 'https://instatrack.njoylab.com/how-to-export',
     images: [
       {
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'How to Export & Import Instagram Data | InstaTrack',
-    description: 'Have followers_1.json? Upload it to InstaTrack to see who unfollowed you. Free, private.',
+    title: 'Got followers_1.json? How to Use Your Instagram Data — InstaTrack',
+    description: 'Already have followers_1.json? Upload it to InstaTrack to see who unfollowed you. Free, private.',
     images: ['/og-image.png'],
   },
   alternates: {
@@ -96,11 +96,62 @@ export default function HowToExportPage() {
     ],
   };
 
+  const faqLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What is followers_1.json?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'followers_1.json is a file inside the Instagram data download ZIP. It contains a list of all your current followers in JSON format. You can find it in the connections/followers_and_following/ folder after unzipping your Instagram data export.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Why do I have followers_1.json and followers_2.json?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'If you have a large number of followers, Instagram splits the list across multiple files (followers_1.json, followers_2.json, etc.). InstaTrack currently uses followers_1.json to track your followers.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Where is the connections/followers_and_following folder?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'After downloading and unzipping your Instagram data export, open the folder and navigate to connections/followers_and_following/. There you will find followers_1.json and following.json.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I download my Instagram data to get followers_1.json?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Go to https://accountscenter.instagram.com/info_and_permissions/dyi/, tap "Request a download", select "Followers and following", change the format to JSON and date range to All time, then submit. Instagram will email you when the file is ready to download.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I import followers_1.json into InstaTrack?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Open InstaTrack at instatrack.njoylab.com, click the import button, and upload both followers_1.json and following.json. Your data is processed entirely in your browser — nothing is sent to any server.',
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
       <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
         <div className="max-w-4xl mx-auto">
