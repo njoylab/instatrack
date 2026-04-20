@@ -1,0 +1,6 @@
+/
+  Link: </.well-known/api-catalog>; rel="api-catalog", </docs/api>; rel="service-doc", </api/openapi.json>; rel="service-desc"; type="application/openapi+json", </agent/home.md>; rel="alternate"; type="text/markdown"
+
+/.well-known/api-catalog
+  Content-Type: application/linkset+json
+  Link: </.well-known/api-catalog>; rel="api-catalog", </docs/api>; rel="service-doc", </api/openapi.json>; rel="service-desc"; type="application/openapi+json", </agent/home.md>; rel="alternate"; type="text/markdown"

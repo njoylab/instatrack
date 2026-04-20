@@ -29,8 +29,9 @@ export default function ApiDocsPage() {
       <section className="mt-10 space-y-3">
         <h2 className="text-2xl font-semibold">Static hosting note</h2>
         <p className="text-muted-foreground">
-          RFC 8288 response headers and true <code>Accept: text/markdown</code> negotiation require CDN or hosting-layer configuration.
-          This repo keeps the site static and ships the files those layers can point to.
+          This app is shipped as a static export. For hosts that honor a root <code>_headers</code> file, the homepage and
+          <code> /.well-known/api-catalog</code> can emit RFC 8288 <code>Link</code> headers without a custom server, including
+          an <code>alternate</code> link to the markdown homepage representation.
         </p>
       </section>
 
