@@ -1,0 +1,33 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "InstaTrack Public Metadata API",
+    "version": "0.1.0",
+    "description": "Static public service metadata for agent and developer discovery."
+  },
+  "servers": [
+    {
+      "url": "https://instatrack.njoylab.com"
+    }
+  ],
+  "paths": {
+    "/api/status.json": {
+      "get": {
+        "operationId": "getApiStatus",
+        "summary": "Get static service health",
+        "responses": {
+          "200": {
+            "description": "Static service health response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

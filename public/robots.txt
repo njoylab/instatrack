@@ -2,5 +2,6 @@
 User-agent: *
 Allow: /
 
-# Sitemaps
+Content-Signal: ai-train=no, search=yes, ai-input=no
+
 Sitemap: https://instatrack.njoylab.com/sitemap.xml

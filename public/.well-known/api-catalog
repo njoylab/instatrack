@@ -1,0 +1,25 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://instatrack.njoylab.com/api",
+      "service-desc": [
+        {
+          "href": "https://instatrack.njoylab.com/api/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://instatrack.njoylab.com/api/status.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://instatrack.njoylab.com/docs/api",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

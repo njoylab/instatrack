@@ -1,0 +1,19 @@
+{
+  "$schema": "https://agentskills.io/schemas/agent-skills-index.v0.2.0.json",
+  "skills": [
+    {
+      "name": "create_snapshot",
+      "type": "workflow",
+      "description": "Guide a user through importing Instagram followers and following exports into InstaTrack.",
+      "url": "https://instatrack.njoylab.com/.well-known/agent-skills/create-snapshot",
+      "sha256": "a0567d0859e7bf17f05b61ee5eab5880b2b0801061dd1b7d2ae1ba2e841b5b6e"
+    },
+    {
+      "name": "restore_backup",
+      "type": "workflow",
+      "description": "Guide a user through restoring a previous InstaTrack backup file.",
+      "url": "https://instatrack.njoylab.com/.well-known/agent-skills/restore-backup",
+      "sha256": "6aac49df55fda41c6c108813973d9c7c7963a848086af6cc5a33d13e5acef1ea"
+    }
+  ]
+}

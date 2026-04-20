@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Upload, LineChart, UsersRound, HeartOff, Users, Save, RotateCcw } from 'lucide-react';
@@ -14,11 +14,25 @@ import { Skeleton } from './ui/skeleton';
 import ChangesTab from './changes-tab';
 import Link from 'next/link';
 import RestoreDialog from './restore-dialog';
+import WebMcpProvider from './webmcp-provider';
 
 export default function DashboardClient() {
   const [isImportOpen, setImportOpen] = useState(false);
   const [isRestoreOpen, setRestoreOpen] = useState(false);
   const { snapshots, addSnapshot, clearSnapshots, isLoaded, restoreSnapshots, deleteSnapshot } = useSnapshots();
+
+  useEffect(() => {
+    const openImport = () => setImportOpen(true);
+    const openRestore = () => setRestoreOpen(true);
+
+    window.addEventListener('instatrack:open-import', openImport);
+    window.addEventListener('instatrack:open-restore', openRestore);
+
+    return () => {
+      window.removeEventListener('instatrack:open-import', openImport);
+      window.removeEventListener('instatrack:open-restore', openRestore);
+    };
+  }, []);
 
   const handleSaveSnapshot = (newSnapshot: Snapshot) => {
     addSnapshot(newSnapshot);
@@ -61,6 +75,7 @@ export default function DashboardClient() {
 
   return (
     <div className="flex flex-col min-h-screen w-full bg-background">
+      <WebMcpProvider />
       <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background/95 px-4 backdrop-blur-sm sm:h-16 sm:px-6">
         <div className="flex items-center gap-2 font-semibold">
           <Logo className="h-6 w-6 text-primary" />

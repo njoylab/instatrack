@@ -1,0 +1,10 @@
+# Restore Backup
+
+Use this skill when a user already has an InstaTrack backup JSON file and wants to restore it.
+
+## Steps
+
+1. Open the "Restore Backup Data" action on the homepage.
+2. Upload the backup JSON file.
+3. Confirm that the restored snapshots replace the current local snapshot history in the browser.
+4. Continue with Overview, Analysis, or Changes after restore.

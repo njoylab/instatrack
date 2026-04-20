@@ -1,0 +1,15 @@
+# Create Snapshot
+
+Use this skill when a user wants to create a new InstaTrack snapshot from Instagram exports.
+
+## Requirements
+
+- `followers_1.json`
+- `following.json`
+
+## Steps
+
+1. Tell the user to open the "New Snapshot" action on the homepage.
+2. Ask them to upload both JSON files from Instagram's export.
+3. Confirm that InstaTrack creates a dated snapshot and stores it locally in the browser.
+4. Direct them to the Overview, Analysis, and Changes tabs after import.
